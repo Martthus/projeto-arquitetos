@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  database_architects:
+    image: postgres
+    container_name: database_architects
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=architects
+      - POSTEGRES_USER=root
+      - POSTGRES_PASSWORD=passw
+    volumes:
+    - pgdata:/data/postgres
+
+  app:
+    build: .
+    container_name: architects
+    restart: always
+    ports:
+      - 3002:3002
+      - 9229:9229
+    volumes:
+      - .:/usr/app
+    links:
+      - database_architects
+    depends_on:
+      - database_architects
+volumes:
+  pgdata:
+    driver: local
