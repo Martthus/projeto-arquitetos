@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  Length,
 } from 'class-validator';
 
 import { UserRole } from '../entities/user.entity';
@@ -14,6 +15,9 @@ export class CreateUserDto {
   })
   @IsNotEmpty({
     message: `O campo 'name' não pode estar vazio!`,
+  })
+  @Length(1, 150, {
+    message: `O campo 'name' tem que conter 1 ou até 150 caracteres!`,
   })
   name: string;
 
@@ -26,6 +30,9 @@ export class CreateUserDto {
   @IsNotEmpty({
     message: `O campo 'email' não pode estar vazio!`,
   })
+  @Length(1, 150, {
+    message: `O campo 'email' tem que conter 1 ou até 150 caracteres!`,
+  })
   email: string;
 
   @IsString({
@@ -34,6 +41,9 @@ export class CreateUserDto {
   @IsNotEmpty({
     message: `O campo 'phone' não pode estar vazio!`,
   })
+  @Length(1, 50, {
+    message: `O campo 'phone' tem que conter 1 ou até 50 caracteres!`,
+  })
   phone: string;
 
   @IsString({
@@ -41,6 +51,9 @@ export class CreateUserDto {
   })
   @IsNotEmpty({
     message: `O campo 'genre' não pode estar vazio!`,
+  })
+  @Length(1, 50, {
+    message: `O campo 'genre' tem que conter 1 ou até 50 caracteres!`,
   })
   genre: string;
 

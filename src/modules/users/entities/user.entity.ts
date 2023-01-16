@@ -3,9 +3,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Form } from '@src/modules/forms/entities/form.entity';
 
 export enum UserRole {
   ARCHITECT = 'architect',
@@ -20,7 +24,7 @@ export class User {
   @Column({ length: 150 })
   name: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 150 })
   email: string;
 
   @Column({ length: 50 })
@@ -29,7 +33,7 @@ export class User {
   @Column({ length: 100 })
   genre: string;
 
-  @Column('int')
+  @Column({ type: 'int' })
   age: number;
 
   @Column()
@@ -44,4 +48,12 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany((type) => Form, (form: Form) => form.architect)
+  @JoinColumn()
+  request: Form[];
+
+  @OneToMany((type) => Form, (form: Form) => form.client)
+  @JoinColumn()
+  solicitation: Form[];
 }
