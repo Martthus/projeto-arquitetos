@@ -18,11 +18,12 @@ services:
     build: .
     container_name: architects
     restart: always
+    command: npm run start:dev
     ports:
       - 3002:3002
       - 9229:9229
     volumes:
-      - .:/usr/app
+      - .:/usr/src/app
     links:
       - database_architects
     depends_on:

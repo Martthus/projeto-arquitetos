@@ -8,9 +8,9 @@ export const databaseProviders = [
         type: 'postgres',
         host: 'database_architects',
         port: 5432,
-        username: 'postgres',
-        password: 'passw',
-        database: 'architects',
+        database: process.env.POSTGRES_DB,
+        username: process.env.POSTEGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
       });
