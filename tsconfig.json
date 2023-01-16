@@ -11,21 +11,15 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@src/*": [
+        "src/*"
+      ],
       "@modules/*": [
-        "modules/*"
-      ],
-      "@config/*": [
-        "config/*"
-      ],
-      "@shared/*": [
-        "shared/*"
+        "src/modules/*"
       ],
       "@errors/*": [
-        "errors/*"
+        "src/shared/errors/*"
       ],
-      "@utils/*": [
-        "utils/*"
-      ]
     },
     "incremental": true,
     "skipLibCheck": true,

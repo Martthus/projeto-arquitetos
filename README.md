@@ -1,15 +1,30 @@
 <p align="center">
-  <img src="./temp/logo-architect.png" width="200"  alt="Arquitetos" />
+  <img src="./temp/logo-architects.png" width="200"  alt="Arquitetos" />
 </p>
 
-## Description
+## Descrição
 
 É um projeto criado como parte da solução dos problemas dos arquitetos e seus clientes.
 (O/A)s arquitetos(as) (Flávio, Luciana, Felipe, João e Christine), estavam com um problema drástico para administrar seus clientes e suas solicitações.
+
 ## Instalação
 
 ```bash
 $ yarn install
+```
+
+## Adicionando variável de ambiente:
+
+```bash
+# crie um arquivo chamado '.env' e adicione as seguintes variáveis:
+
+APP_PORT= <número>
+APP_SECRET= <string>
+
+POSTGRES_DB=<nome-do-banco>
+POSTEGRES_USER=<nome-do-usuário>
+POSTGRES_PASSWORD=<senha-do-banco>
+
 ```
 
 ## Rodando a aplicação
@@ -45,15 +60,7 @@ $ yarn test:e2e
 $ yarn test:cov
 ```
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
