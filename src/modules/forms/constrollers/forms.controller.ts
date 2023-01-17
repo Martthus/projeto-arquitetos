@@ -49,8 +49,8 @@ export class FormsController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findOne(@Param() params: FindOneParamsDto) {
-    const form = this.formsService.findOne(params);
+  async findOneById(@Param() params: any) {
+    const form = this.formsService.findOneById(params);
 
     return classToClass(form);
   }

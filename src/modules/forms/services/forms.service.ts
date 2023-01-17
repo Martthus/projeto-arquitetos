@@ -58,7 +58,6 @@ export class FormsService {
     if (!searchUser) {
       throw new ErrorsApp('Usuário não encontrado!', 404);
     }
-    console.log(searchUser.id);
     // Se a role do usuário for do tipo architect ele retorna os forms que pertencem a ele
     if (searchUser.role === UserRole.ARCHITECT) {
       listForms
@@ -118,7 +117,7 @@ export class FormsService {
     return await listForms.getManyAndCount();
   }
 
-  async findOne(params: FindOneParamsDto) {
+  async findOneById(params: FindOneParamsDto) {
     const searchForm = await this.formsRepository.findOne({
       where: { id: params.id, archived: true },
       relations: { architect: true, client: true },
@@ -134,7 +133,7 @@ export class FormsService {
   async update(
     params: FindOneParamsDto,
     data: UpdateFormDto,
-    userId: FindOneParamsDto,
+    userId: any,
   ): Promise<Form> {
     let dataUpdate;
 

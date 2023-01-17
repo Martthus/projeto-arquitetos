@@ -85,7 +85,6 @@ export class UsersService {
     const searchUser = await this.usersRepository.findOne({
       where: { id: params.id },
     });
-
     if (!searchUser) {
       throw new ErrorsApp('Usuário não encontrado!', 404);
     }

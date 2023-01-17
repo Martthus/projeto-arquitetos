@@ -41,7 +41,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   async findOneById(@Param() params: FindOneParamsDto) {
-    console.log({ params });
     const user = this.usersService.findOneById(params);
 
     return classToClass(user);
