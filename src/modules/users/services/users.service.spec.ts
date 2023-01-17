@@ -1,48 +1,48 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import { Test } from '@nestjs/testing';
+import { ModuleMocker, MockFunctionMetadata } from 'jest-mock';
 
-import { User } from '../entities/user.entity';
-import { UsersService } from './users.service';
+import { UsersService } from '../services/users.service';
+import { createUserMock } from '@src/__mocks__/users.mock';
 import { UsersController } from '../controllers/users.controller';
-import { dataSourceMockFactory } from '@src/__mocks__/dataSource.mock';
-import UsersRepositoryMockFactory from '@src/__mocks__/usersRepository.mock';
 
-const userMock = new User();
+const moduleMocker = new ModuleMocker(global);
 
-let usersRepositoryMockFactory: UsersRepositoryMockFactory;
-
-describe('UsersRepository', () => {
+describe('UsersService', () => {
+  let controller: UsersController;
   let service: UsersService;
 
   beforeEach(async () => {
-    usersRepositoryMockFactory = new UsersRepositoryMockFactory();
-
-    const module: TestingModule = await Test.createTestingModule({
+    const moduleRef = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [
-        UsersService,
-        {
-          provide: DataSource,
-          useFactory: dataSourceMockFactory,
-        },
-        {
-          provide: getRepositoryToken(User),
-          useValue: usersRepositoryMockFactory,
-        },
-      ],
-    }).compile();
+    })
+      .useMocker((token) => {
+        const results = createUserMock;
+        if (token === UsersService) {
+          return {
+            create: jest.fn().mockResolvedValue(results),
+          };
+        }
+        if (typeof token === 'function') {
+          const mockMetadata = moduleMocker.getMetadata(
+            token,
+          ) as MockFunctionMetadata<any, any>;
+          const Mock = moduleMocker.generateFromMetadata(mockMetadata);
+          return new Mock();
+        }
+      })
+      .compile();
 
-    service = module.get<UsersService>(UsersService);
+    controller = moduleRef.get(UsersController);
+    service = moduleRef.get(UsersService);
   });
 
-  describe('findByEmail', () => {
-    it(`should return the user when the user exists in database.`, async () => {
-      await service.create(userMock);
+  it('Deverá encontrar o service', async () => {
+    expect(service).toBeDefined();
+  });
 
-      const fetchedUser = await service.findOneByEmail(userMock.email);
-
-      expect(fetchedUser.email).toEqual(userMock.email);
+  describe('create', () => {
+    it('Deve acessar o service e simular a criação de um usuário', async () => {
+      expect(await service.create(createUserMock[0])).toEqual(createUserMock);
     });
   });
 });

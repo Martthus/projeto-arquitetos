@@ -1,13 +1,13 @@
 import { Test } from '@nestjs/testing';
 import { ModuleMocker, MockFunctionMetadata } from 'jest-mock';
 
+import { AuthController } from './auth.controller';
 import { AuthService } from '../services/auth.service';
-import { createAuthMock, createUserLoginMock } from '@src/__mocks__/auth.mock';
-import { AuthController } from '../controllers/auth.controller';
+import { createAuthMock, loginAuthMock } from '@src/__mocks__/auth.mock';
 
 const moduleMocker = new ModuleMocker(global);
 
-describe('AuthService', () => {
+describe('AuthController', () => {
   let controller: AuthController;
   let service: AuthService;
 
@@ -36,15 +36,13 @@ describe('AuthService', () => {
     service = moduleRef.get(AuthService);
   });
 
-  it('Deverá encontrar o service', async () => {
-    expect(service).toBeDefined();
+  it('Deverá encontrar o controller', async () => {
+    expect(controller).toBeDefined();
   });
 
   describe('create', () => {
-    it('Deve entrar no service e simular o login', async () => {
-      expect(await service.login(createUserLoginMock[0])).toEqual(
-        createAuthMock,
-      );
+    it('Deve retornar um array de usuários', async () => {
+      expect(await controller.login(loginAuthMock)).toEqual(createAuthMock);
     });
   });
 });
