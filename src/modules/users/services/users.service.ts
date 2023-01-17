@@ -29,19 +29,28 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    const listUsers = await this.usersRepository.find();
+    const listUsers = await this.usersRepository.find({
+      relations: { solicitation: true, request: true },
+    });
 
     return listUsers;
   }
 
   async findOneById(params: FindOneParamsDto): Promise<User> {
-    const searchUser = this.usersRepository.findOneBy({ id: params.id });
+    const searchUser = await this.usersRepository.createQueryBuilder('user');
 
-    if (!searchUser) {
+    searchUser
+      .leftJoinAndSelect('user.solicitation', 'form as formSolicitation')
+      .leftJoinAndSelect('user.request', 'form as formRequest')
+      .where('user.id = :id', { id: params.id });
+
+    const result = await searchUser.getOne();
+
+    if (!result || result === null) {
       throw new ErrorsApp('Usuário não encontrado!', 404);
     }
 
-    return searchUser;
+    return result;
   }
 
   async findOneByEmail(data: string): Promise<User> {

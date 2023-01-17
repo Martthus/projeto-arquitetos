@@ -1,32 +1,35 @@
-import { PartialType } from '@nestjs/mapped-types';
 import {
   IsString,
-  IsOptional,
-  IsEnum,
-  IsBoolean,
+  IsNotEmpty,
   IsEmail,
+  IsEnum,
   IsUUID,
+  IsOptional,
+  IsBoolean,
   Length,
 } from 'class-validator';
 
 import { FormStatus } from '../entities/form.entity';
-import { CreateFormDto } from './createForm.dto';
 
-export class UpdateFormDto extends PartialType(CreateFormDto) {
+export class CreateFormDto {
   @IsString({
     message: `O campo 'title' deve ser uma string!`,
   })
-  @IsOptional()
-  @Length(1, 150, {
-    message: `O campo 'title' tem que conter 1 ou até 150 caracteres!`,
+  @IsNotEmpty({
+    message: `O campo 'title' não pode estar vazio!`,
   })
-  title?: string;
+  @Length(1, 150, {
+    message: `O campo 'title' deve conter entre 1 a 150 caracteres!`,
+  })
+  title: string;
 
   @IsString({
     message: `O campo 'description' deve ser uma string!`,
   })
-  @IsOptional()
-  description?: string;
+  @IsNotEmpty({
+    message: `O campo 'description' não pode estar vazio!`,
+  })
+  description: string;
 
   @IsUUID('4', {
     message: `O campo 'clientId' deve ser um UUID!`,
@@ -37,7 +40,9 @@ export class UpdateFormDto extends PartialType(CreateFormDto) {
   @IsUUID('4', {
     message: `O campo 'architectId' deve ser um UUID!`,
   })
-  @IsOptional()
+  @IsNotEmpty({
+    message: `O campo 'architectId' não pode estar vazio!`,
+  })
   architectId: string;
 
   @IsString({
@@ -45,9 +50,9 @@ export class UpdateFormDto extends PartialType(CreateFormDto) {
   })
   @IsOptional()
   @Length(1, 150, {
-    message: `O campo 'name' tem que conter 1 ou até 150 caracteres!`,
+    message: `O campo 'name' deve conter entre 1 a 150 caracteres!`,
   })
-  name?: string;
+  name: string;
 
   @IsEmail(
     {},
@@ -57,18 +62,19 @@ export class UpdateFormDto extends PartialType(CreateFormDto) {
   )
   @IsOptional()
   @Length(1, 150, {
-    message: `O campo 'email' tem que conter 1 ou até 150 caracteres!`,
+    message: `O campo 'email' deve conter entre 1 a 150 caracteres!`,
   })
-  email?: string;
+  email: string;
 
   @IsBoolean({
     message: `O campo 'archived' deve ser um boolean!`,
   })
-  archived?: boolean;
+  @IsOptional()
+  archived: boolean;
 
   @IsEnum(FormStatus, {
     message: `O campo 'status' deve ser um enum do tipo: requested, accept ou refused!`,
   })
   @IsOptional()
-  status?: FormStatus;
+  status: FormStatus;
 }
